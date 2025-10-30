@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\backend;
+namespace App\Http\Controllers\Backend;
 use App\Models\Post;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -23,7 +23,7 @@ class PostController extends Controller
             ->select("id",  "topic_id", "title", "slug", "thumbnail", "status","type")
             ->with(['topic'])
             ->paginate(5);
-        return view('backend.post.index', compact('posts'));
+        return view('Backend.post.index', compact('posts'));
     }
 
     /**
@@ -37,7 +37,7 @@ class PostController extends Controller
         $posts = Post::orderBy('created_at', 'ASC')
             ->select('id', 'title')
             ->get();
-        
+
         // Lấy danh sách topics để hiển thị trong dropdown
         $topics = Topic::orderBy('name', 'ASC')
             ->select('id', 'name')
@@ -48,7 +48,7 @@ class PostController extends Controller
             ->distinct()
             ->pluck('type');
 
-        return view('backend.post.create', compact('posts', 'topics', 'types'));
+        return view('Backend.post.create', compact('posts', 'topics', 'types'));
     }
 
     /**
@@ -66,14 +66,14 @@ class PostController extends Controller
             $filename = date('YmdHis') . "." . $extension;
             $file->move(public_path('images/post'), $filename);
             $post->thumbnail = $filename;
-            
+
             $post->title = $request->title;
             $post->slug = $request->slug;
             $post->type = $request->type;
             $post->topic_id = $request->topic_id;
             $post->content = $request->content;
             $post->description = $request->description;
-           
+
             $post->created_by = Auth::id() ?? 1;
             $post->created_at = date('Y-m-d H:i:s');
             $post->status = $request->status;
@@ -98,7 +98,7 @@ class PostController extends Controller
         if ($posts == null) {
             return redirect()->back()->with('error', 'Không tồn tại mẫu tin');
         }
-        return view('backend.post.show', compact('posts'));
+        return view('Backend.post.show', compact('posts'));
     }
 
     /**
@@ -119,8 +119,8 @@ class PostController extends Controller
         $types = Post::select('type')
             ->distinct()
             ->pluck('type');
-        
-        return view('backend.post.edit', compact('post', 'posts', 'topics', 'types'));
+
+        return view('Backend.post.edit', compact('post', 'posts', 'topics', 'types'));
     }
 
     /**
@@ -185,7 +185,7 @@ class PostController extends Controller
         $posts = Post::onlyTrashed()
             ->orderBy('created_at', 'DESC')
             ->paginate(8);
-        return view('backend.post.trash', compact('posts'));
+        return view('Backend.post.trash', compact('posts'));
     }
 
     public function status(string $id)

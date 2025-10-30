@@ -40,7 +40,7 @@ class OrderController extends Controller
      */
     public function create()
     {
-        return view('backend.order.create');
+        return view('Backend.order.create');
     }
 
     /**
@@ -53,7 +53,7 @@ class OrderController extends Controller
     {
         try {
             DB::beginTransaction();
-            
+
             // Tạo order mới
             $order = new Order();
             $order->user_id =$request->user_id;
@@ -156,7 +156,7 @@ class OrderController extends Controller
      */
     public function edit(string $id)
     {
-        return view('backend.order.edit');
+        return view('Backend.order.edit');
     }
 
     /**
@@ -173,7 +173,7 @@ class OrderController extends Controller
         ->where('order.id', $id)
         ->select('order.*', 'users.fullname')
         ->first();
-        
+
         if ($order == null) {
             return response()->json([
                 'status' => false,
@@ -189,13 +189,13 @@ class OrderController extends Controller
         $order->email = $request->email;
         $order->phone = $request->phone;
         $order->address = $request->address;
-   
-    
+
+
         $order->user_id = $order->user_id;
-        $order->created_at = $order->created_at; 
-        $order->created_by = $order->created_by; 
-        $order->status = $order->status; 
-        $order->updated_by = $order->updated_by; 
+        $order->created_at = $order->created_at;
+        $order->created_by = $order->created_by;
+        $order->status = $order->status;
+        $order->updated_by = $order->updated_by;
         $order->updated_at = now();
         $order->save();
         return response()->json([
@@ -210,7 +210,7 @@ class OrderController extends Controller
                 'message' => 'Không tìm thấy dữ liệu',
                 'order' => null
             ];
-      
+
         }
 
         return response()->json($result);
@@ -268,7 +268,7 @@ class OrderController extends Controller
         $order->status = ($order->status == 1) ? 2 : 1;
         $order->updated_by = Auth::id() ?? 1;
         $order->updated_at = date('Y-m-d H:i:s');
-        
+
         if ($order->save()) {
             return response()->json([
                 'status' => true,

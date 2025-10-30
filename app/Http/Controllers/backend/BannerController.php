@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\backend;
+namespace App\Http\Controllers\Backend;
 use App\Models\Banner;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -24,11 +24,11 @@ class BannerController extends Controller
         $banners = Banner::orderBy('created_at', 'DESC')
             ->select("id", "name", "link", "image", "position", "status")
             ->paginate(5);
-        
-    
-        return view('backend.banner.index', compact('banners'));
-        
-     
+
+
+        return view('Backend.banner.index', compact('banners'));
+
+
     }
 
     /**
@@ -42,13 +42,13 @@ class BannerController extends Controller
         $banners = Banner::orderBy('sort_order', 'ASC')
                         ->select('id', 'name', 'sort_order')
                         ->get();
-    
+
         // Lấy danh sách vị trí không trùng lặp
         $positions = Banner::select('position')
                         ->distinct()
                         ->pluck('position');
 
-        return view('backend.banner.create', compact('banners', 'positions'));
+        return view('Backend.banner.create', compact('banners', 'positions'));
     }
     /**
      * Store a newly created resource in storage.
@@ -95,7 +95,7 @@ class BannerController extends Controller
         if ($banners == null) {
             return redirect()->back()->with('error', 'Không tồn tại mẫu tin');
         }
-        return view('backend.banner.show', compact('banners'));
+        return view('Backend.banner.show', compact('banners'));
     }
 
     /**
@@ -110,8 +110,8 @@ class BannerController extends Controller
         $banners = Banner::orderBy('sort_order', 'ASC')
             ->select("id", "name", "sort_order", "status")
             ->get();
-        
-        return view('backend.banner.edit', compact('banner', 'banners'));
+
+        return view('Backend.banner.edit', compact('banner', 'banners'));
     }
 
     /**
@@ -167,7 +167,7 @@ class BannerController extends Controller
             }
             $banners->forceDelete();
                 return redirect()->route('admin.banner.trash')->with('success', 'Xóa thành công');
-        }                       
+        }
         return redirect()->route('admin.banner.trash')->with('error', 'Mẫu tin không tồn tại');
     }
     public function trash()
@@ -175,7 +175,7 @@ class BannerController extends Controller
         $banners = Banner::onlyTrashed()
             ->orderBy('created_at', 'DESC')
             ->paginate(8);
-        return view('backend.banner.trash', compact('banners'));
+        return view('Backend.banner.trash', compact('banners'));
     }
 
     public function status(string $id)
@@ -204,7 +204,7 @@ class BannerController extends Controller
         $banners->delete();
         return redirect()->route('admin.banner.index')->with('message', ['type' => 'success', 'msg' => 'Xóa vào thùng rác thành công!']);
     }
-    
+
     public function restore(string $id)
     {
         $banners = Banner::withTrashed()->where('id', $id);

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\backend;
+namespace App\Http\Controllers\Backend;
 use App\Models\Category;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -21,11 +21,11 @@ class CategoryController extends Controller
         $categories = Category::orderBy('created_at', 'DESC')
             ->select("id", "name","image","slug", "status","parent_id")
             ->paginate(5);
-        
-    
-        return view('backend.category.index', compact('categories'));
-        
-     
+
+
+        return view('Backend.category.index', compact('categories'));
+
+
     }
     /**
      * Show the form for creating a new resource.
@@ -37,8 +37,8 @@ class CategoryController extends Controller
         $categories = Category::orderBy('created_at', 'DESC')
             ->select('id', 'name', 'sort_order')
             ->get();
-        
-        return view('backend.category.create', compact('categories'));
+
+        return view('Backend.category.create', compact('categories'));
     }
 
     /**
@@ -86,7 +86,7 @@ class CategoryController extends Controller
         if ($categories == null) {
             return redirect()->back()->with('error', 'Không tồn tại mẫu tin');
         }
-        return view('backend.category.show', compact('categories'));
+        return view('Backend.category.show', compact('categories'));
     }
 
     /**
@@ -101,8 +101,8 @@ class CategoryController extends Controller
         $categories = Category::orderBy('sort_order', 'ASC')
             ->select("id", "name", "sort_order", "status")
             ->get();
-        
-        return view('backend.category.edit', compact('category', 'categories'));
+
+        return view('Backend.category.edit', compact('category', 'categories'));
     }
 
     /**
@@ -166,7 +166,7 @@ class CategoryController extends Controller
         $categories = Category::onlyTrashed()
             ->orderBy('created_at', 'DESC')
             ->paginate(8);
-        return view('backend.category.trash', compact('categories'));
+        return view('Backend.category.trash', compact('categories'));
     }
 
     public function status(string $id)

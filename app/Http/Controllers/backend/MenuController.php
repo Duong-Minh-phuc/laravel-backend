@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\backend;
+namespace App\Http\Controllers\Backend;
 use App\Models\Menu;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -13,15 +13,15 @@ class MenuController extends Controller
         $menus = Menu::orderBy('created_at', 'DESC')
             ->select("id", "name","link", "status","type","position")
             ->paginate(5);
-    
-        return view('backend.menu.index', compact('menus'));
-        
-     
+
+        return view('Backend.menu.index', compact('menus'));
+
+
     }
 
 
     public function create() {
-        return view('backend.menu.create');
+        return view('Backend.menu.create');
     }
 
     public function store(Request $request) {
@@ -34,7 +34,7 @@ class MenuController extends Controller
         if ($menus == null) {
             return redirect()->back()->with('error', 'Không tồn tại mẫu tin');
         }
-        return view('backend.menu.show', compact('menus'));
+        return view('Backend.menu.show', compact('menus'));
     }
 
     public function edit(string $id)
@@ -43,8 +43,8 @@ class MenuController extends Controller
         $menus = Menu::orderBy('sort_order', 'ASC')
             ->select("id", "name", "sort_order", "status")
             ->get();
-        
-        return view('backend.menu.edit', compact('menu', 'menus'));
+
+        return view('Backend.menu.edit', compact('menu', 'menus'));
     }
 
     public function update(Request $request, string $id)
@@ -83,7 +83,7 @@ class MenuController extends Controller
         $menus = Menu::onlyTrashed()
             ->orderBy('created_at', 'DESC')
             ->paginate(8);
-        return view('backend.menu.trash', compact('menus'));
+        return view('Backend.menu.trash', compact('menus'));
     }
 
     public function status(string $id)

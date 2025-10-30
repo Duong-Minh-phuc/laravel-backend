@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\backend;
+namespace App\Http\Controllers\Backend;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -18,10 +18,10 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::orderBy('created_at', 'DESC')  
+        $users = User::orderBy('created_at', 'DESC')
             ->select("id","fullname","thumbnail","roles","username", "email", "phone", "address", "status")
             ->paginate(5);
-        return view('backend.user.index', compact('users'));
+        return view('Backend.user.index', compact('users'));
     }
 
 
@@ -36,13 +36,13 @@ class UserController extends Controller
         $users = User::orderBy('created_at', 'DESC')
             ->select('id', 'fullname')
             ->get();
-        
+
         // Lấy danh sách roles không trùng lặp
         $roles = User::select('roles')
             ->distinct()
             ->pluck('roles');
 
-        return view('backend.user.create', compact('users', 'roles'));
+        return view('Backend.user.create', compact('users', 'roles'));
     }
 
     /**
@@ -61,7 +61,7 @@ class UserController extends Controller
             $file->move(public_path('images/user'), $filename);
             $users->thumbnail = $filename;
         }
-        
+
         $users->fullname = $request->fullname;
         $users->email = $request->email;
         $users->phone = $request->phone;
@@ -74,7 +74,7 @@ class UserController extends Controller
         $users->created_at = date('Y-m-d H:i:s');
         $users->status = $request->status;
         $users->save();
-        
+
         return redirect()->route('admin.user.index')->with('success', 'Thêm thành công');
     }
 
@@ -90,7 +90,7 @@ class UserController extends Controller
         if ($users == null) {
             return redirect()->back()->with('error', 'Không tồn tại mẫu tin');
         }
-        return view('backend.user.show', compact('users'));
+        return view('Backend.user.show', compact('users'));
     }
 
     /**
@@ -102,7 +102,7 @@ class UserController extends Controller
     public function edit(string $id)
     {
         $user = User::where('id', $id)->first();
-        return view('backend.user.edit', compact('user'));
+        return view('Backend.user.edit', compact('user'));
     }
 
     /**
@@ -193,7 +193,7 @@ class UserController extends Controller
         $users = User::onlyTrashed()
             ->orderBy('created_at', 'DESC')
             ->paginate(8);
-        return view('backend.user.trash', compact('users'));
+        return view('Backend.user.trash', compact('users'));
     }
 
     public function restore(string $id)

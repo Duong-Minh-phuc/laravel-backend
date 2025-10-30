@@ -42,13 +42,13 @@ class UserController extends Controller
         $users = User::orderBy('created_at', 'DESC')
             ->select('id', 'fullname')
             ->get();
-        
+
         // Lấy danh sách roles không trùng lặp
         $roles = User::select('roles')
             ->distinct()
             ->pluck('roles');
 
-        return view('backend.user.create', compact('users', 'roles'));
+        return view('Backend.user.create', compact('users', 'roles'));
     }
 
     /**
@@ -72,7 +72,7 @@ class UserController extends Controller
         $extension = $file->extension();
         $filename = date('YmdHis') . "." . $extension;
         $file->move(public_path('images/user'), $filename);
-        
+
         $user->image = $filename;
         $user->name = $request->name;
         $user->email = $request->email;
@@ -84,7 +84,7 @@ class UserController extends Controller
         $user->created_by = Auth::id() ?? 1;
         $user->created_at = date('Y-m-d H:i:s');
         $user->status = $request->status;
-        
+
         if($user->save()) {
             return response()->json([
                 'status' => true,
@@ -114,7 +114,7 @@ class UserController extends Controller
         $extension = $file->extension();
         $filename = date('YmdHis') . "." . $extension;
         $file->move(public_path('images/user'), $filename);
-        
+
         $user->thumbnail = $filename;
         $user->fullname = $request->fullname;
         $user->email = $request->email;
@@ -126,7 +126,7 @@ class UserController extends Controller
         $user->created_by = Auth::id() ?? 1;
         $user->created_at = date('Y-m-d H:i:s');
         $user->status = $request->status;
-        
+
         if($user->save()) {
             return response()->json([
                 'status' => true,
@@ -175,7 +175,7 @@ class UserController extends Controller
     public function edit(string $id)
     {
         $user = User::where('id', $id)->first();
-        return view('backend.user.edit', compact('user'));
+        return view('Backend.user.edit', compact('user'));
     }
 
     /**
@@ -256,7 +256,7 @@ class UserController extends Controller
         if ($user->image && File::exists(public_path("images/user/" . $user->image))) {
             File::delete(public_path("images/user/" . $user->image));
         }
-        
+
         $user->forceDelete();
         return response()->json([
             'status' => true,
@@ -279,7 +279,7 @@ class UserController extends Controller
         $user->status = ($user->status == 1) ? 2 : 1;
         $user->updated_by = Auth::id() ?? 1;
         $user->updated_at = date('Y-m-d H:i:s');
-        
+
         if ($user->save()) {
             return response()->json([
                 'status' => true,

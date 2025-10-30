@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\backend;
+namespace App\Http\Controllers\Backend;
 use App\Models\Brand;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -21,11 +21,11 @@ class BrandController extends Controller
         $brands = Brand::orderBy('created_at', 'DESC')
             ->select("id", "name","image","slug", "status")
             ->paginate(5);
-        
-    
-        return view('backend.brand.index', compact('brands'));
-        
-     
+
+
+        return view('Backend.brand.index', compact('brands'));
+
+
     }
 
     /**
@@ -38,8 +38,8 @@ class BrandController extends Controller
         $brands = Brand::orderBy('sort_order', 'ASC')
             ->select('id', 'name', 'sort_order')
             ->get();
-        
-        return view('backend.brand.create', compact('brands'));
+
+        return view('Backend.brand.create', compact('brands'));
     }
 
     /**
@@ -57,7 +57,7 @@ class BrandController extends Controller
             $filename = date('YmdHis') . "." . $extension;
             $file->move(public_path('images/brand'), $filename);
             $brand->image = $filename;
-            
+
             $brand->name = $request->name;
             $brand->slug = $request->slug;
             $brand->sort_order = $request->sort_order;
@@ -86,7 +86,7 @@ class BrandController extends Controller
         if ($brands == null) {
             return redirect()->back()->with('error', 'Không tồn tại mẫu tin');
         }
-        return view('backend.brand.show', compact('brands'));
+        return view('Backend.brand.show', compact('brands'));
     }
 
     /**
@@ -101,8 +101,8 @@ class BrandController extends Controller
         $brands = Brand::orderBy('sort_order', 'ASC')
             ->select("id", "name", "sort_order", "status")
             ->get();
-        
-        return view('backend.brand.edit', compact('brand', 'brands'));
+
+        return view('Backend.brand.edit', compact('brand', 'brands'));
     }
 
     /**
@@ -165,7 +165,7 @@ class BrandController extends Controller
         $brands= Brand::onlyTrashed()
         ->orderBy('created_at', 'DESC')
         ->paginate(8);
-    return view('backend.brand.trash', compact('brands'));
+    return view('Backend.brand.trash', compact('brands'));
     }
 
     public function status(string $id)

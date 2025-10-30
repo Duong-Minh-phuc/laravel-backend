@@ -16,11 +16,11 @@
 </head>
 <body class="bg-gray-100">
     <div class="min-h-screen">
-        @include('backend.dashboard.navbar')
-        
+        @include('Backend.dashboard.navbar')
+
         <div class="flex">
-            @include('backend.dashboard.sidebar')
-            
+            @include('Backend.dashboard.sidebar')
+
             <div class="flex-1 p-8">
                 <div class="bg-white rounded-lg shadow-md">
                     <div class="p-6">
@@ -30,7 +30,7 @@
             </div>
         </div>
 
-        @include('backend.dashboard.footer')
+        @include('Backend.dashboard.footer')
     </div>
 
     {{-- Gọi JS nếu có --}}

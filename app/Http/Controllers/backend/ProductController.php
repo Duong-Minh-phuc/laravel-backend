@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\backend;
+namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -25,7 +25,7 @@ class ProductController extends Controller
             ->select("id", "name", "category_id", "brand_id", "slug", "thumbnail", "status")
             ->with(['category', 'brand'])
             ->paginate(5);
-        return view('backend.product.index', compact('products'));
+        return view('Backend.product.index', compact('products'));
     }
 
     public function create()
@@ -33,18 +33,18 @@ class ProductController extends Controller
         $categories = Category::orderBy('created_at', 'DESC')
             ->select('id', 'name')
             ->get();
-        
+
         $brands = Brand::orderBy('created_at', 'DESC')
             ->select('id', 'name')
             ->get();
-        
-        return view('backend.product.create', compact('categories', 'brands'));
+
+        return view('Backend.product.create', compact('categories', 'brands'));
     }
     //Chi tiết sản phẩm
     public function store(StoreProductRequest $request)
     {
         $products= new Product();
-        
+
         // Xử lý upload hình ảnh
         if ($request->hasFile('thumbnail')) {
             $file = $request->file('thumbnail');
@@ -53,7 +53,7 @@ class ProductController extends Controller
             $file->move(public_path('images/product'), $filename);
             $products->thumbnail = $filename;
         }
-        
+
         // Gán các giá trị từ request
         $products->name = $request->name;
         $products->slug = $request->slug;
@@ -66,10 +66,10 @@ class ProductController extends Controller
         $products->brand_id = $request->brand_id;
         $products->created_by = Auth::id() ?? 1;
         $products->status = $request->status;
-        
+
         // Lưu vào database
         $products->save();
-        
+
         return redirect()->route('admin.product.index')->with('message', ['type' => 'success', 'msg' => 'Thêm sản phẩm thành công!']);
     }
     public function show(string $id)
@@ -78,7 +78,7 @@ class ProductController extends Controller
         if ($products == null) {
             return redirect()->back()->with('error', 'Không tồn tại mẫu tin');
         }
-        return view('backend.product.show', compact('products'));
+        return view('Backend.product.show', compact('products'));
     }
 
     public function edit(string $id)
@@ -90,8 +90,8 @@ class ProductController extends Controller
         $brands = Brand::orderBy('name', 'ASC')
             ->select("id", "name")
             ->get();
-        
-        return view('backend.product.edit', compact('product', 'categories', 'brands'));
+
+        return view('Backend.product.edit', compact('product', 'categories', 'brands'));
     }
     //Xử lý cập nhật sản phâm
 
@@ -153,7 +153,7 @@ class ProductController extends Controller
         $products = Product::onlyTrashed()
             ->orderBy('created_at', 'DESC')
             ->paginate(8);
-        return view('backend.product.trash', compact('products'));
+        return view('Backend.product.trash', compact('products'));
     }
     public function status(string $id)
     {
@@ -198,7 +198,7 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-   
+
 
     /**
      * Store a newly created resource in storage.
@@ -206,7 +206,7 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-   
+
 
     /**
      * Display the specified resource.
@@ -214,7 +214,7 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-   
+
 
     /**
      * Show the form for editing the specified resource.
@@ -222,7 +222,7 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-   
+
     /**
      * Update the specified resource in storage.
      *
@@ -230,7 +230,7 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    
+
 
     /**
      * Remove the specified resource from storage.
@@ -238,5 +238,5 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    
+
 }

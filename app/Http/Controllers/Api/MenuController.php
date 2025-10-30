@@ -12,12 +12,12 @@ class MenuController extends Controller
 {
     public function index()
     {
-        $menus = Menu::orderBy('created_at', 'DESC') 
+        $menus = Menu::orderBy('created_at', 'DESC')
             ->select("id", "name", "link", "status", "type", "position","parent_id")
             ->where('status', 1)
             ->where('position', "mainmenu")
             ->paginate(20);
-    
+
         return response()->json([
             'status' => true,
             'message' => 'Lấy dữ liệu thành công',
@@ -26,7 +26,7 @@ class MenuController extends Controller
     }
 
     public function create() {
-        return view('backend.menu.create');
+        return view('Backend.menu.create');
     }
 
     public function store(Request $request)
@@ -88,7 +88,7 @@ class MenuController extends Controller
         $menus = Menu::orderBy('sort_order', 'ASC')
             ->select("id", "name", "sort_order", "status")
             ->get();
-        
+
         return response()->json([
             'status' => true,
             'message' => 'Lấy dữ liệu thành công',
@@ -181,7 +181,7 @@ class MenuController extends Controller
         $menu->status = ($menu->status == 1) ? 2 : 1;
         $menu->updated_by = Auth::id() ?? 1;
         $menu->updated_at = date('Y-m-d H:i:s');
-        
+
         if ($menu->save()) {
             return response()->json([
                 'status' => true,

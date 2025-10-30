@@ -22,7 +22,7 @@ class BrandController extends Controller
         $brands = Brand::orderBy('created_at', 'DESC')
             ->select("id", "name", "slug", "image", "sort_order", "status")
             ->paginate(5);
-        
+
         return response()->json([
             'status' => true,
             'message' => 'Lấy dữ liệu thành công',
@@ -46,7 +46,7 @@ class BrandController extends Controller
             'brands'=>$brands
         ];
         return response()->json($result);
-        return view('backend.brand.create', compact('brands'));
+        return view('Backend.brand.create', compact('brands'));
     }
 
     /**
@@ -70,7 +70,7 @@ class BrandController extends Controller
         $extension = $file->extension();
         $filename = date('YmdHis') . "." . $extension;
         $file->move(public_path('images/brand'), $filename);
-        
+
         $brand->image = $filename;
         $brand->name = $request->name;
         $brand->slug = $request->slug;
@@ -78,7 +78,7 @@ class BrandController extends Controller
         $brand->sort_order = 0;
         $brand->created_by = Auth::id() ?? 1;
         $brand->status = $request->status;
-        
+
         if($brand->save()) {
             return response()->json([
                 'status' => true,
@@ -86,7 +86,7 @@ class BrandController extends Controller
                 'data' => $brand
             ]);
         }
-        
+
         return response()->json([
             'status' => false,
             'message' => 'Không thể thêm',
@@ -136,7 +136,7 @@ class BrandController extends Controller
             'brands'=>$brands
         ];
         return response()->json($result);
-        return view('backend.brand.edit', compact('brand', 'brands'));
+        return view('Backend.brand.edit', compact('brand', 'brands'));
     }
 
     /**
@@ -211,7 +211,7 @@ class BrandController extends Controller
         if ($brand->image && File::exists(public_path("images/brand/" . $brand->image))) {
             File::delete(public_path("images/brand/" . $brand->image));
         }
-        
+
         $brand->forceDelete();
         return response()->json([
             'status' => true,
@@ -246,7 +246,7 @@ class BrandController extends Controller
 
         $brand->status = ($brand->status == 1) ? 2 : 1;
         $brand->updated_by = Auth::id() ?? 1;
-        
+
         if ($brand->save()) {
             return response()->json([
                 'status' => true,
@@ -286,7 +286,7 @@ class BrandController extends Controller
             'data' => null
         ]);
     }
-    
+
     public function restore(string $id)
     {
         $brand = Brand::withTrashed()->find($id);

@@ -9,7 +9,7 @@ class AuthController extends Controller
 {
     function login()
     {
-        return view("backend.user.login");
+        return view("Backend.user.login");
     }
 
     function doLogin(Request $request)
@@ -20,12 +20,12 @@ class AuthController extends Controller
             'username' => $username,
             'password' => $password,
         ];
-        
+
         if (Auth::attempt($data_login)) {
             $request->session()->put('username', $username);
             return redirect()->route('admin.dashboard');
         }
-        
+
         return redirect()->route('admin.login')->with('error', 'Thông tin không chính xác');
     }
 
@@ -35,4 +35,4 @@ class AuthController extends Controller
         session()->forget('username');
         return redirect()->route('admin.login');
     }
-} 
+}

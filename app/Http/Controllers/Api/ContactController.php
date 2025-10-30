@@ -13,7 +13,7 @@ class ContactController extends Controller
     public function index()
     {
         $contacts = Contact::orderBy('created_at', 'DESC')
-            ->select("id", "name", "email", "phone", "title", "content", "status", "created_at")   
+            ->select("id", "name", "email", "phone", "title", "content", "status", "created_at")
             ->paginate(5);
 
         return response()->json([
@@ -24,7 +24,7 @@ class ContactController extends Controller
     }
 
     public function create() {
-        return view('backend.contact.create');
+        return view('Backend.contact.create');
     }
 
     public function store(Request $request)
@@ -74,7 +74,7 @@ class ContactController extends Controller
     public function edit(string $id)
     {
         $contact = Contact::where('id', $id)->first();
-        return view('backend.contact.edit', compact('contact'));
+        return view('Backend.contact.edit', compact('contact'));
     }
 
     public function update(Request $request, string $id)
@@ -158,7 +158,7 @@ class ContactController extends Controller
         $contact->status = ($contact->status == 1) ? 2 : 1;
         $contact->updated_by = Auth::id() ?? 1;
         $contact->updated_at = date('Y-m-d H:i:s');
-        
+
         if ($contact->save()) {
             return response()->json([
                 'status' => true,

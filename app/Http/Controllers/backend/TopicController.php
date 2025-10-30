@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\backend;
+namespace App\Http\Controllers\Backend;
 use App\Models\Topic;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -16,18 +16,18 @@ class TopicController extends Controller
         $topics = Topic::orderBy('created_at', 'DESC')
             ->select("id", "name","slug", "status")
             ->paginate(5);
-    
-        return view('backend.topic.index', compact('topics'));
-        
-     
+
+        return view('Backend.topic.index', compact('topics'));
+
+
     }
     public function create()
     {
         $topics = Topic::orderBy('sort_order', 'ASC')
             ->select('id', 'name', 'sort_order')
             ->get();
-        
-        return view('backend.topic.create', compact('topics'));
+
+        return view('Backend.topic.create', compact('topics'));
     }
 
     public function store(StoreTopicRequest $request)
@@ -50,7 +50,7 @@ class TopicController extends Controller
         if ($topics == null) {
             return redirect()->back()->with('error', 'Không tồn tại mẫu tin');
         }
-        return view('backend.topic.show', compact('topics'));
+        return view('Backend.topic.show', compact('topics'));
     }
 
     public function edit(string $id)
@@ -59,8 +59,8 @@ class TopicController extends Controller
         $topics = Topic::orderBy('sort_order', 'ASC')
             ->select("id", "name", "sort_order", "status")
             ->get();
-        
-        return view('backend.topic.edit', compact('topic', 'topics'));
+
+        return view('Backend.topic.edit', compact('topic', 'topics'));
     }
 
     public function update(UpdateTopicRequest $request, string $id)
@@ -96,7 +96,7 @@ class TopicController extends Controller
         $topics = Topic::onlyTrashed()
             ->orderBy('created_at', 'DESC')
             ->paginate(8);
-        return view('backend.topic.trash', compact('topics'));
+        return view('Backend.topic.trash', compact('topics'));
     }
 
     public function status(string $id)

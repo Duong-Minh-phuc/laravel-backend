@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\backend;
+namespace App\Http\Controllers\Backend;
 use App\Models\Contact;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -11,13 +11,13 @@ class ContactController extends Controller
     public function index()
     {
         $contacts = Contact::orderBy('created_at', 'DESC')
-            ->select("id","name", "email", "phone", "title", "content", "status","created_at")   
+            ->select("id","name", "email", "phone", "title", "content", "status","created_at")
             ->paginate(5);
-        return view('backend.contact.index', compact('contacts'));
+        return view('Backend.contact.index', compact('contacts'));
     }
 
     public function create() {
-        return view('backend.contact.create');
+        return view('Backend.contact.create');
     }
 
     public function store(Request $request) {
@@ -30,13 +30,13 @@ class ContactController extends Controller
         if ($contacts == null) {
             return redirect()->back()->with('error', 'Không tồn tại mẫu tin');
         }
-        return view('backend.contact.show', compact('contacts'));
+        return view('Backend.contact.show', compact('contacts'));
     }
 
     public function edit(string $id)
     {
         $contact = Contact::where('id', $id)->first();
-        return view('backend.contact.edit', compact('contact'));
+        return view('Backend.contact.edit', compact('contact'));
     }
 
     public function update(Request $request, string $id)
@@ -73,7 +73,7 @@ class ContactController extends Controller
         $contacts = Contact::onlyTrashed()
             ->orderBy('created_at', 'DESC')
             ->paginate(8);
-        return view('backend.contact.trash', compact('contacts'));
+        return view('Backend.contact.trash', compact('contacts'));
     }
 
     public function status(string $id)

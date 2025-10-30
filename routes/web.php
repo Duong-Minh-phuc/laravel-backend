@@ -1,17 +1,17 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\backend\DashboardController;
-use App\Http\Controllers\backend\BannerController as AdminBannerController;
-use App\Http\Controllers\backend\BrandController as AdminBrandController;
-use App\Http\Controllers\backend\CategoryController as AdminCategoryController;
-use App\Http\Controllers\backend\ProductController as AdminProductController;
-use App\Http\Controllers\backend\ContactController as AdminContactController;
-use App\Http\Controllers\backend\MenuController as AdminMenuController;
-use App\Http\Controllers\backend\OrderController as AdminOrderController;
-use App\Http\Controllers\backend\PostController as AdminPostController;
-use App\Http\Controllers\backend\TopicController as AdminTopicController;
-use App\Http\Controllers\backend\UserController as AdminUserController;
+use App\Http\Controllers\Backend\DashboardController;
+use App\Http\Controllers\Backend\BannerController as AdminBannerController;
+use App\Http\Controllers\Backend\BrandController as AdminBrandController;
+use App\Http\Controllers\Backend\CategoryController as AdminCategoryController;
+use App\Http\Controllers\Backend\ProductController as AdminProductController;
+use App\Http\Controllers\Backend\ContactController as AdminContactController;
+use App\Http\Controllers\Backend\MenuController as AdminMenuController;
+use App\Http\Controllers\Backend\OrderController as AdminOrderController;
+use App\Http\Controllers\Backend\PostController as AdminPostController;
+use App\Http\Controllers\Backend\TopicController as AdminTopicController;
+use App\Http\Controllers\Backend\UserController as AdminUserController;
 use App\Http\Controllers\Backend\AuthController;
 
 // Admin Auth Routes

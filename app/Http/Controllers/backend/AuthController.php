@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\backend;
+namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -16,7 +16,7 @@ class AuthController extends Controller
         if (session('user_id')) {
             return redirect()->route('admin.dashboard');
         }
-        return view('backend.user.login');
+        return view('Backend.user.login');
     }
 
     public function dologin(Request $request)

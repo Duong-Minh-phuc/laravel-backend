@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\backend;
+namespace App\Http\Controllers\Backend;
 use App\Models\Order;
 use App\Models\User;
 use App\Http\Controllers\Controller;
@@ -28,7 +28,7 @@ class OrderController extends Controller
         }
 
         $orders = $query->paginate(10);
-        return view('backend.order.index', compact('orders'));
+        return view('Backend.order.index', compact('orders'));
     }
 
     /**
@@ -38,7 +38,7 @@ class OrderController extends Controller
      */
     public function create()
     {
-        return view('backend.order.create');
+        return view('Backend.order.create');
     }
 
     /**
@@ -82,7 +82,7 @@ class OrderController extends Controller
             )
             ->get();
 
-        return view('backend.order.show', compact('orders', 'orderdetails'));
+        return view('Backend.order.show', compact('orders', 'orderdetails'));
     }
 
     /**
@@ -93,7 +93,7 @@ class OrderController extends Controller
      */
     public function edit(string $id)
     {
-        return view('backend.order.edit');
+        return view('Backend.order.edit');
     }
 
     /**
@@ -114,13 +114,13 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-   
+
 
     public function trash() {
         $orders = Order::onlyTrashed()
             ->orderBy('created_at', 'DESC')
             ->paginate(8);
-        return view('backend.order.trash', compact('orders'));
+        return view('Backend.order.trash', compact('orders'));
     }
 
     public function status(string $id)
@@ -168,7 +168,7 @@ class OrderController extends Controller
         $order = Order::findOrFail($id);
         $newStatus = (int) $request->status;
         $oldStatus = $order->status;
-        
+
         // Check if the status transition is valid
         if (!$order->canTransitionTo($newStatus)) {
             return back()->with('message', [
