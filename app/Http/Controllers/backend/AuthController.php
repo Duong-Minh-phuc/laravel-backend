@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Backend;
+namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -33,7 +33,7 @@ class AuthController extends Controller
 
         if ($user && Hash::check($request->password, $user->password)) {
             Auth::login($user);
-            
+
             // Thiết lập session với thời gian dài hơn (48 giờ)
             $request->session()->put([
                 'user_id' => $user->id,
@@ -41,10 +41,10 @@ class AuthController extends Controller
                 'fullname' => $user->fullname,
                 'roles' => $user->roles
             ]);
-            
+
             // Tăng thời gian session
             config(['session.lifetime' => 2880]); // 48 giờ
-            
+
             return redirect()->route('admin.dashboard')
                            ->with('success', 'Đăng nhập thành công!');
         }
@@ -60,4 +60,4 @@ class AuthController extends Controller
         return redirect()->route('admin.login')
                         ->with('success', 'Đăng xuất thành công!');
     }
-} 
+}
