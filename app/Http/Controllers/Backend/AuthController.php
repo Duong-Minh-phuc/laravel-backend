@@ -16,7 +16,7 @@ class AuthController extends Controller
         if (session('user_id')) {
             return redirect()->route('admin.dashboard');
         }
-        return view('Backend.user.login');
+        return view('backend.user.login');
     }
 
     public function dologin(Request $request)
